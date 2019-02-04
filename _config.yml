@@ -1,0 +1,23 @@
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
+
+# Setup
+title:               Diego Lima
+tagline:             'Research, open source, etc.'
+description:         'A personal blog about neuroscience research and programming. You can also find me on Twitter (<a href="http://twitter.com" target="_blank">@limads4</a>) and Github  (<a href="http://github.com" target="_blank">limads</a>)'
+url:                 http://lanyon.getpoole.com
+baseurl:             ''
+paginate:            5
+paginate_path:       "page:num"
+
+# About/contact
+author:
+  name:              Diego Lima
+  url:               https://twitter.com/limads4
+  email:             limads@pm.me
+
+# Custom vars
+version:             1.0.0
+plugins:             [jekyll-paginate]
