@@ -3,25 +3,44 @@ layout: page
 title: CV
 ---
 
-<img src="../img/avatar.jpg" style="align:left; width:20%" />
+<img src="../img/avatar.jpg" style="display:block;float:left;width:20%;margin-right:3em" />
 
-<div style="float:left">
+<div style="display:grid;grid-template-columns:1fr;grid-template-rows:1fr 1fr 1fr">
 
-<img src="../img/mail.png" style="display:inline" /> <a href=lima.ds@pm.me](limads@pm.me) />
+<div style="display:inline-grid;grid-row:1;grid-column:1">
+<a href="mailto:lima.ds@outlook.com">
+	<img src="../img/mail.png" style="display:inline;align:left;float:left;width:1.5em;margin-right:1em" /> 
+	<p style="align:left;float:left"> lima.ds@outlook.com </p>
+</a>
+</div>
 
-[twitter.com/limads4](limads@pm.me)
+<div style="display:inline-grid;grid-row:2;grid-column:1">
+<a href="http://twitter.com/limads4">
+	<img src="../img/twitter.png" style="display:inline;align:left;float:left;width:1.5em;margin-right:1em" /> 
+	<p style="align:left;float:left"> twitter.com/limads4 </p>
+</a>
+</div>
 
-[github.com/limads](limads@pm.me)
+<div style="display:inline-grid;grid-row:3;grid-column:1">
+<a href="http://github.com/limads">
+	<img src="../img/github.png" style="display:inline;align:left;float:left;width:1.5em;margin-right:1em" /> 
+	<p style="align:left;float:left"> github.com/limads </p>
+</a>
+</div>
 
 </div>
 
-I'm a masters student working at the Clinical Electrophysiology and Psychophysics Lab at USP. Here are some of my previous work:
+<br />
+
+I'm a bachelor in Psychology, and currently I'm a masters student working at the Clinical Electrophysiology and Psychophysics Lab at University of São Paulo. Open source and computer vision enthusiast. Here are some of my previous work:
 
 ## Education
 
-**2012-2016** Psychology Bachelor (UFG)
+**2012-2016** Bachelor in Psychology (Universidade Federal de Goiás)
 
-**2017-** PhD. in Neuroscience and Behavior
+**2017-2019** Msc. in Neuroscience and Behavior (Universidade de São Paulo)
+
+## Professional experience
 
 ## Publications
 
@@ -29,8 +48,5 @@ I'm a masters student working at the Clinical Electrophysiology and Psychophysic
 
 ## Open source projects
 
-[HTMLPlots](http://www.github.com) Is a way to easily integrate Matplotlib with webpages based on Flask. Useful to build interactive visualizations.
+[GtkGridPlot](https://github.com/limads/gtkgridplot) (C++) Real-time plotting using Gtk and Cairo, with a XML-based plot model
 
-[CrossRefSubl](http://www.github.com) A small Sublime text plugin to fetch bibliographic data from the Crossref API
-
-[OpenBCI-Psychopy](http://www.github.com) Easily interface the open-source electrophysiology board OpenBCI with Psychopy experiment building software.
