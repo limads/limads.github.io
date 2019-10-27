@@ -32,19 +32,19 @@ title: CV
 
 <br />
 
-I'm a bachelor in Psychology, and currently I'm a masters student working at the Clinical Electrophysiology and Psychophysics Lab at University of São Paulo. Open source and computer vision enthusiast. Here are some of my previous work:
+I'm a PhD. candidate working at the Clinical Electrophysiology and Psychophysics Lab at the University of São Paulo. I study infant vision assessment techniques (classical psychophysics, EEG, eye tracking). Open source and scientific computing enthusiast.
 
 ## Education
 
-**2012-2016** Bachelor in Psychology (Universidade Federal de Goiás)
+**2012-2016** Bsc. Psychology (Universidade Federal de Goiás)
 
-**2017-2019** Msc. in Neuroscience and Behavior (Universidade de São Paulo)
+**2017-2019** Msc. Neuroscience and Behavior (Universidade de São Paulo)
 
-## Professional experience
-
-## Publications
+**2019-...** PhD. Neuroscience and Behavior (Universidade de São Paulo - in progress)
 
 ## Talks
+
+[Spike2 and ViSaGE for Visual Electrophysiology](../docs/spike2visage.pdf) (UFPA, 2019, Portuguese) 
 
 ## Open source projects
 

@@ -41,16 +41,17 @@ body {
 }
 
 html {
-  font-family: "PT Serif", Georgia, "Times New Roman", serif;
+  /* font-family: "PT Serif", Georgia, "Times New Roman", serif; <-- (Diego) Original fonts */
+  font-family: "Ubuntu", sans;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  /*font-family: "PT Sans", Helvetica, Arial, sans-serif; <-- (Diego) Original fonts */
+  font-family: "Ubuntu", sans;
   font-weight: 400;
   color: #313131;
   letter-spacing: -.025rem;
 }
-
 
 /*
  * Wrapper
@@ -537,6 +538,31 @@ a.pagination-item:hover {
   color: #8f5536;
 }
 
+/* (Diego) Custom changes */
+
+.theme-custom h1 a,
+.theme-custom h2 a,
+.theme-custom h3 a,
+.theme-custom .sidebar-toggle,
+.theme-custom .related-posts li a:hover {
+  color: #37495b;
+}
+
+.theme-custom container a,
+.theme-custom p a,
+/*.theme-custom div a*/ {
+  /*color : #2f6f9f;*/
+  color: #55728e;
+  /*font-weight: bold;*/
+}
+
+.theme-custom .sidebar,
+.theme-custom .sidebar-toggle:active,
+.theme-custom #sidebar-checkbox:checked ~ .sidebar-toggle {
+  background-color: #37495b;
+}
+
+/* (Diego) End custom changes */
 
 /*
  * Overlay sidebar
