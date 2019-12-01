@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Diego Lima">
+  <meta name="dcterms.date" content="2019-11-25">
+  <title>Pose estimation by wavelet subspace projection</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://revealjs.com/css/reveal.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://revealjs.com/css/theme/simple.css" id="theme">
+  <link rel="stylesheet" href="style.css"/>
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'https://revealjs.com/css/print/pdf.css' : 'https://revealjs.com/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="https://revealjs.com/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Pose estimation by wavelet subspace projection</h1>
+  <p class="subtitle">Computer Vision Laboratory (2019/2 - IME/USP)</p>
+  <p class="author">Diego Lima</p>
+  <p class="date">November 25, 2019</p>
+</section>
+
+<section id="motivation" class="slide level2">
+<h2>Motivation</h2>
+<style type="text/css">
+  .reveal p {
+    text-align: left;
+  }
+  .reveal ul {
+    display: block;
+  }
+  .reveal ol {
+    display: block;
+  }
+  .reveal h1 {
+    font-size:30px;
+    font-weight:bold;
+    text-align:left;
+   }
+  .reveal h2 {
+    font-size:30px;
+    font-weight:bold;
+    text-align:left;
+   }
+  .reveal p {
+   font-size:22px;
+   }
+   .reveal section img {
+     border:None;
+     box-shadow:None;
+   }
+</style>
+<p>IR-based eye trackers rely on cues such as corneal reflection to disambiguate head movements from eye movements. We can use facial features to do that for visible-light eye trackers.</p>
+<p>This solution impose hardware requirements (GPUs) if we are to achieve real time performance, which we might not have available.</p>
+<p>Can we represent the face pose estimation problem in a lower-dimensional space to be able to solve it without requiring too much computational resources?</p>
+</section>
+<section id="optimizing-over-a-single-image" class="slide level2">
+<h2>Optimizing over a single image</h2>
+<p>2D (real) wavelets are functions of four parameters:</p>
+<p><span class="math display">\[
+\theta = [x_0,y_0,u,v]
+\]</span></p>
+<p><span class="math display">\[
+\psi_{\theta} = e^{\frac{u(x-x_0)^2}{2} + \frac{v(y-y_0)^2}{2}} \sin(u(x - x_0) + v(y-y_0)) 
+\]</span></p>
+<p>Using <span class="math inline">\(n\)</span> wavelets, we can can represent an image column vector <span class="math inline">\(x\)</span> in a smaller subspace by finding <span class="math inline">\(4n + n\)</span> parameters which minimize the L2 norm:</p>
+<p><span class="math display">\[
+\hat x = 
+\underset{\theta_i, w_i}{\operatorname{argmin}} \Vert \sum_i w_i \psi_{\theta_i} - x \Vert_2^2 = 
+\underset{\theta, w}{\operatorname{argmin}} \Vert \Psi_\theta w - x \Vert_2^2
+\]</span></p>
+</section>
+<section id="optimizing-over-a-single-image-1" class="slide level2">
+<h2>Optimizing over a single image</h2>
+<p><img data-src="img1.png" /></p>
+</section>
+<section id="optimizing-over-a-single-image-2" class="slide level2">
+<h2>Optimizing over a single image</h2>
+<p>After 200 iterations, we went from a 4096-dimensional vector (64x64 image) to a 180-dimensional vector of parameters that preserved a good deal of information about the image.</p>
+<p>The ammount of information preserved can be quantified by the residual error of the difference image <span class="math inline">\(\Vert \Psi_\theta w - x \Vert_2^2\)</span></p>
+</section>
+<section id="optimizing-over-a-single-image-3" class="slide level2">
+<h2>Optimizing over a single image</h2>
+<p>We carried out the optimization with PyTorch using the Adam algorithm (<span class="math inline">\(lr=0.1\)</span>)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1">    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(max_iter):</a>
+<a class="sourceLine" id="cb1-2" title="2">        optimizer.zero_grad()</a>
+<a class="sourceLine" id="cb1-3" title="3">        reg_params <span class="op">=</span> reg_mtx <span class="op">@</span> params</a>
+<a class="sourceLine" id="cb1-4" title="4">        wav_mtx <span class="op">=</span> wav_c.apply_wavelets(reg_params, <span class="va">False</span>)</a>
+<a class="sourceLine" id="cb1-5" title="5">        w_wav_mtx <span class="op">=</span> wav_mtx <span class="op">@</span> weights</a>
+<a class="sourceLine" id="cb1-6" title="6">        mse_loss <span class="op">=</span> torch.<span class="bu">sum</span>( torch.<span class="bu">pow</span>((w_wav_mtx <span class="op">-</span> flat_img.T).T, <span class="fl">2.0</span>) )</a>
+<a class="sourceLine" id="cb1-7" title="7">        mse_loss.backward(retain_graph<span class="op">=</span><span class="va">True</span>)</a>
+<a class="sourceLine" id="cb1-8" title="8">        optimizer.step()</a></code></pre></div>
+</section>
+<section id="optimizing-over-a-single-image-4" class="slide level2">
+<h2>Optimizing over a single image</h2>
+<p>The optimization above is relatively cheap (takes ~10s), but we still cannot do it in real time (30 FPS).</p>
+<p>The advantage of this technique is that we don’t actually have to perform it for every frame: once we find an optimized space to represent some set of objects, new objects can be represented over it by simple projection:</p>
+<p><span class="math display">\[
+w_i = (\Psi^T \Psi)^{-1}\Psi^T x_i
+\]</span></p>
+<p>Where the expensive part <span class="math inline">\((\Psi^T \Psi)^{-1}\Psi^T\)</span> can be computed offline, and the new frame (<span class="math inline">\(x_i\)</span>) can be projected into this space by one matrix-vector multiplication.</p>
+</section>
+<section id="face-pose-subspaces" class="slide level2">
+<h2>Face pose subspaces</h2>
+<p>As faces turn around over the vertical and horizontal direction, facial features (eyes, hair, noses, mouth) vary widely. To make our algorithm robust to such changes, we can optimize over sets of faces at different poses.</p>
+<p>Images from the Head Pose Image Database <a href="https://www-prima.inrialpes.fr/perso/Gourier/Faces/HPDatabase.html">https://www-prima.inrialpes.fr/perso/Gourier/Faces/HPDatabase.html</a> were used to establish 9 pose-specific wavelet subspaces (10 different persons, 186 images from each)</p>
+</section>
+<section id="face-pose-subspaces-1" class="slide level2">
+<h2>Face pose subspaces</h2>
+<p>To achieve that, we adapted the previous algorithm just by calculating the norm over sets of images instead of calculating it over a single image:</p>
+<p><span class="math display">\[
+\hat x_k = \underset{\theta_k, w_k}{\operatorname{argmin}} \Vert \sum_i \Psi_{\theta_k} w_k - x_i \Vert_2^2
+\]</span></p>
+<p>This optimization preserves features constant across different poses while attenuating individual differences.</p>
+</section>
+<section id="face-pose-subspaces-2" class="slide level2">
+<h2>Face pose subspaces</h2>
+<p><img data-src="img2.png" /></p>
+</section>
+<section id="pose-classification" class="slide level2">
+<h2>Pose classification</h2>
+<p>The errors when projecting a new face image against its corresponding pose subspace are smaller than when projecting against other pose subsaces, which suggests the projection vectors <span class="math inline">\(w_i\)</span> are linearly separable.</p>
+<p>This allows us to train a classifier by projecting a new unknown image <span class="math inline">\(x_i\)</span> into all trained subspaces, and using the projections as features for a classifier.</p>
+</section>
+<section id="pose-classification-1" class="slide level2">
+<h2>Pose classification</h2>
+<p>The classifier can be expressed as:</p>
+<p><span class="math display">\[
+y_i = \operatorname{LogSoftmax}{ \{ ( (\Psi^T \Psi)^{-1}\Psi^T x_i) W + b ) \} }
+\]</span></p>
+<p>Where <span class="math inline">\((\Psi^T \Psi)^{-1}\Psi^T x_i\)</span> now represents the projections over all optimized subspaces concatenated over the column dimension, <span class="math inline">\(W\)</span> is a matrix of adjustable parameters that maps the projections to the classifier output, and <span class="math inline">\(b\)</span> is an adjustable bias parameter.</p>
+</section>
+<section id="pose-classification-2" class="slide level2">
+<h2>Pose classification</h2>
+<p>The same optimizer configuration was used to train the classifier, but now we use the Negative Log-Likelihood (NLL) loss:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1">activation <span class="op">=</span> torch.nn.LogSoftmax(dim<span class="op">=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">loss <span class="op">=</span> torch.nn.NLLLoss()</a>
+<a class="sourceLine" id="cb2-3" title="3">projs <span class="op">=</span> torch.zeros(<span class="va">self</span>.n, <span class="va">self</span>.n_wavelets <span class="op">*</span> <span class="va">self</span>.n_classes)</a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(class_subspaces):</a>
+<a class="sourceLine" id="cb2-5" title="5">    projs[:, n_wavelets<span class="op">*</span>i : n_wavelets<span class="op">*</span>i <span class="op">+</span> n_wavelets] <span class="op">=</span> c.project(imgs).T</a>
+<a class="sourceLine" id="cb2-6" title="6"></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(max_iter):</a>
+<a class="sourceLine" id="cb2-8" title="8">    optimizer.zero_grad()</a>
+<a class="sourceLine" id="cb2-9" title="9">    nll <span class="op">=</span> <span class="va">self</span>.loss( activation(projs <span class="op">@</span> ce_params <span class="op">+</span> bias[<span class="va">None</span>,:]), train_labels)</a>
+<a class="sourceLine" id="cb2-10" title="10">    nll.backward(retain_graph<span class="op">=</span><span class="va">True</span>)</a>
+<a class="sourceLine" id="cb2-11" title="11">    optimizer.step()</a></code></pre></div>
+</section>
+<section id="results" class="slide level2">
+<h2>Results</h2>
+<p><img data-src="fig3.png" /></p>
+</section>
+<section id="lessons-learned" class="slide level2">
+<h2>Lessons learned</h2>
+<p>To solve the image approximation problem, imposing a restriction to the range of parameter variation via a covariance matrix was essential. This matrix transformed the objective surface into a convex function, guaranteeing that the optimizer did not get stuck.</p>
+<p>Setting a lower learning rate (<span class="math inline">\(lr=0.1\)</span>) was important as well. The optimization took only a small fraction of the time to converge after this change.</p>
+</section>
+<section id="next-steps" class="slide level2">
+<h2>Next steps</h2>
+<ul>
+<li><p><strong>Error analysis</strong> The outputs might actually point to classes which are at the neighboring pose angles, which suggest the problem can be best formulated as a regression one, where we would measure the error as a discrepancy from any given pose angle. The algorithm in its current form might actually present a tolerable error on a continuous scale.</p></li>
+<li><p><strong>Check real-time performance</strong> Verify the performance of frame-by-frame analysis, using an implementation on a compiled language. If we can afford to, increase the number of wavelets used to represent the subspaces.</p></li>
+<li><p><strong>Parameter tweaking</strong> We might initialize some parameters at overlapping locations but at higher spatial frequencies so the subspaces can better synthesize details. It might be the case that the errors might be due to the subspaces representing mostly low-frequency details.</p></li>
+</ul>
+</section>
+<section id="references" class="slide level2">
+<h2>References</h2>
+<ul>
+<li><p>Szu, H., Telfer, B., &amp; Garcia, J. (1996). Wavelet transforms and neural networks for compression and recognition. Neural networks, 9(4), 695-708.</p></li>
+<li><p>Daugman, J. G. (1988). Complete discrete 2-D Gabor transforms by neural networks for image analysis and compression. IEEE Transactions on acoustics, speech, and signal processing, 36(7), 1169-1179.</p></li>
+<li><p>Feris, R. S., Cesar, R. M., &amp; Kruger, V. (2001, July). Efficient real-time face tracking in wavelet subspace. In Proceedings IEEE ICCV Workshop on Recognition, Analysis, and Tracking of Faces and Gestures in Real-Time Systems (pp. 113-118). IEEE.</p></li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://revealjs.com/lib/js/head.min.js"></script>
+  <script src="https://revealjs.com/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        math: {
+          mathjax: '/usr/share/javascript/mathjax/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'https://revealjs.com/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'https://revealjs.com/plugin/zoom-js/zoom.js', async: true },
+          { src: 'https://revealjs.com/plugin/math/math.js', async: true },
+          { src: 'https://revealjs.com/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>

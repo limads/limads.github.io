@@ -44,7 +44,9 @@ I'm a PhD. candidate working at the Clinical Electrophysiology and Psychophysics
 
 ## Talks
 
-[Spike2 and ViSaGE for Visual Electrophysiology](../docs/spike2visage.pdf) (UFPA, 2019, Portuguese) 
+[Spike2 and ViSaGE for Visual Electrophysiology](../docs/spike2visage.pdf) (UFPB, 2019) 
+
+[Pose estimation by wavelet subspace projection](../docs/pose/pose.html) (USP, 2019)
 
 ## Open source projects
 
